@@ -2,6 +2,8 @@ Polymer Challenge
 Developer: Md Reshad Bin Harun
 Date: 12th June, 2018
 
+
+PART ONE:
 Design:
 Food Show CRM:
 Client-side:
@@ -30,3 +32,8 @@ What would you like to do?
     * HTML/Javascript for front-end
     
     Please refer to comments on the files for documentation
+
+PART TWO:
+
+I implemention the sheet using OOP and in C++.
+Please refer to SheetImplementation.cpp
