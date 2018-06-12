@@ -1,0 +1,84 @@
+<DOCTYPE HTML>
+<html>
+	<head>
+		<title>Updating Status</title>
+		<style>
+	      body {
+	        font-family: 'Roboto', serif;
+	        font-size: 12px;
+	        background-color: #FBFEF9;
+	      }
+	      #update{
+	      	text-align: center;
+	      	font-family: 'Montserrat', serif;
+	      	font-size: 20px;
+	      	text-shadow: 2px 2px lightgray;
+	      }
+	      #header{
+	      	font-family: 'Roboto', serif;
+	      	font-size: 30px;
+	      	text-align: center;
+	      }
+	      #res{
+	      	font-family: 'Roboto', serif;
+	      	font-size: 30px;
+	      	text-align: center;
+	      }
+	    </style>
+		<script>
+			function fetch(){
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", "/status", true);
+				//xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); 
+				xhr.onreadystatechange = function() {
+				    if (this.readyState == 4 && this.status == 200) {
+				     //build select object
+				     var obj = JSONStringify(this.responseText);
+				     var sel = "<select>";
+				     for (var i = 0; i < obj.length; i++){
+				     	sel += "<option value="obj[i].company +">"+obj[i].company+"</option>";
+				     }
+				     sel += "</select>";
+				     document.getElementById("comSelect").innerHTML = sel;
+				     return false;
+				    }
+			    } 
+				xhr.send();
+			}
+			function updateStatus(){
+				var xhr = new XMLHttpRequest();
+				var formData = new FormData(form);
+				//testing for proper input from user
+				for (var i; i < formData.length; i++){
+					console.log(formData[i]);
+				}
+				xhr.open("POST", "/update", true);
+				//xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); 
+				xhr.onreadystatechange = function() {
+				    if (this.readyState == 4 && this.status == 200) {
+				     document.getElementById("comSelect").innerHTML = "Update successful!";
+				     return false;
+				    }
+			    } 
+				xhr.send(formData);
+			}
+		</script>
+	</head>
+	<body onload="fetch(); return false;">
+		<p id="header">Please provide your company name and next status.</p>
+		<form onsubmit="updateStatus(); return false;" id="update">
+			<p>Please select your company:</p>
+		  	<select id="comSelect">
+			</select>
+			<p>Choose your new status:</p>
+			<select>
+			  <option value="red">red</option>
+			  <option value="yellow">yellow</option>
+			  <option value="green">green</option>
+			</select>
+		  <input  type="submit" value="Submit">
+		  <a href="index.html"><button>Return to Homepage</button></a>
+		  <div id="res">Waiting on input...</div>
+		</form>
+	</body>
+</html>

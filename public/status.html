@@ -1,0 +1,82 @@
+<DCOCTYPE HTML>
+<html>
+	<head>
+		<title>Status of Participating Companies</title>	
+	</head>
+	<script>
+		var res_arr;
+		function buildTable(){
+			var table = " <tr><th id=\"name_h\" onclick=\"sort(this); return false;\">Contact Name</th><th id=\"comp_h\" onclick=\"sort(this); return false;\">Company</th> <th id=\"email_h\" onclick=\"sort(this); return false;\">Email</th><th id=\"status_h\" onclick=\"sort(this); return false;\">Status</th></tr>";
+					for (var i = 0; i < res_arr.length; i++){
+					     	table += "<tr><td id=\"name\">"res_arr[i].name +"</td>"+"<td id=\"company\">"res_arr[i].company +"</td>"+"<td id=\"email\">"res_arr[i].email +"</td>"+"<td id=\"status\">"+res[i]_arr.status+"</td></tr>";
+					}
+			table+="</tr>";
+			document.getElementById("tab").innerHTML = table;
+			return false;
+		}
+		function sort(el){
+			if (el == "name_h"){
+				//build table from JSON
+				res_arr.sort(function(a,b){
+					return a.name - b.name;
+				});
+				buildTable();
+
+			}else if (el == "email_h"){
+				res_arr.sort(function(a,b){
+					return a.email - b.email;
+				});
+				buildTable();
+
+			}else if (el =="status_h"){
+				res_arr.sort(function(a,b){
+					return a.status - b.status;
+				});
+				buildTable();
+
+			}
+			else{ //sort by company
+				res_arr.sort(function(a,b){
+					return a.company - b.company;
+				});
+				buildTable();
+			}
+			return false;
+		}
+		function fresh(){
+			var form = document.getElementById('register');
+			var formData = new FormData(form);
+			//testing for proper input from user
+			for (var i; i < formData.length; i++){
+				console.log(formData[i]);
+			}
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", "/status", true);
+			//xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); 
+			xhr.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var res = JSON.parse(this.responseText);
+					for (var i = 0; i < res.length; i++){
+						res_arr.push({name: res[i].name, company: res[i].company, email: res[i].email, status: res[i].status});
+					}
+					buildTable();
+				    document.getElementById("tab").innerHTML = table;
+				    return false;				    
+			 	}
+			} 
+			xhr.send();
+		}
+		</script>	
+	<body onload="fresh(); return false">
+		<p>Find your company's status here!</p>
+		<table id="tab" style="width:100%">
+		  <tr>
+		    <th>Contact Name</th>
+		    <th>Company</th> 
+		    <th>Email</th>
+		    <th>Status</th>
+		  </tr>
+		</table>
+		<a href="index.html"><button>Return to Homepage</button></a>
+	</body>
+</html>
