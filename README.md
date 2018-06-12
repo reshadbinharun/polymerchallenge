@@ -23,3 +23,10 @@ What would you like to do?
     1. Register company
     2. Check Status
     3. Update Status
+    
+    TECH STACK USED:
+    * NodeJs for server-side
+    * SQL for backend
+    * HTML/Javascript for front-end
+    
+    Please refer to comments on the files for documentation

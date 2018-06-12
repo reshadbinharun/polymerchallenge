@@ -4,7 +4,8 @@
 		<title>Status of Participating Companies</title>	
 	</head>
 	<script>
-		var res_arr;
+		var res_arr; //declared with global scope
+		//invoked to build a table as needed
 		function buildTable(){
 			var table = " <tr><th id=\"name_h\" onclick=\"sort(this); return false;\">Contact Name</th><th id=\"comp_h\" onclick=\"sort(this); return false;\">Company</th> <th id=\"email_h\" onclick=\"sort(this); return false;\">Email</th><th id=\"status_h\" onclick=\"sort(this); return false;\">Status</th></tr>";
 					for (var i = 0; i < res_arr.length; i++){
@@ -14,6 +15,7 @@
 			document.getElementById("tab").innerHTML = table;
 			return false;
 		}
+		//invoked when user clicks a heading, new table is built based on what column will be used as sorting pivot
 		function sort(el){
 			if (el == "name_h"){
 				//build table from JSON
@@ -43,22 +45,22 @@
 			}
 			return false;
 		}
+		//function invoked when html loads
+		//all data is fetched from server-side
 		function fresh(){
 			var form = document.getElementById('register');
 			var formData = new FormData(form);
-			//testing for proper input from user
-			for (var i; i < formData.length; i++){
-				console.log(formData[i]);
-			}
 			var xhr = new XMLHttpRequest();
 			xhr.open("GET", "/status", true);
 			//xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); 
 			xhr.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					var res = JSON.parse(this.responseText);
+					//the JSON object is stored as an array to allow sorting
 					for (var i = 0; i < res.length; i++){
 						res_arr.push({name: res[i].name, company: res[i].company, email: res[i].email, status: res[i].status});
 					}
+					//once table is built, the table is loaded asynchronously
 					buildTable();
 				    document.getElementById("tab").innerHTML = table;
 				    return false;				    

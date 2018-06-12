@@ -26,6 +26,8 @@
 	      }
 	    </style>
 		<script>
+			//function invoked when page is loaded; the GET request is used to fetch all data from database
+			//and build the form that allows the user to update status
 			function fetch(){
 				var xhr = new XMLHttpRequest();
 				xhr.open("GET", "/status", true);
@@ -33,14 +35,15 @@
 				xhr.onreadystatechange = function() {
 				    if (this.readyState == 4 && this.status == 200) {
 				     //build select object
-				     var obj = JSONStringify(this.responseText);
+				     var obj = JSON.parse(this.responseText);
+				     //select element of form built from server response to allow user to complete update request
 				     var sel = "<select>";
 				     for (var i = 0; i < obj.length; i++){
 				     	sel += "<option value="obj[i].company +">"+obj[i].company+"</option>";
 				     }
 				     sel += "</select>";
 				     document.getElementById("comSelect").innerHTML = sel;
-				     return false;
+				     return false;//asynchronous update of form
 				    }
 			    } 
 				xhr.send();
@@ -56,6 +59,7 @@
 				//xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); 
 				xhr.onreadystatechange = function() {
 				    if (this.readyState == 4 && this.status == 200) {
+				    	//asynchronous feedback to user informing user of success
 				     document.getElementById("comSelect").innerHTML = "Update successful!";
 				     return false;
 				    }
